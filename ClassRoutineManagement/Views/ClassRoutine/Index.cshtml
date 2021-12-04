@@ -1,0 +1,130 @@
+﻿@model IEnumerable<ClassRoutineManagement.ViewModels.ClassRoutineCreateViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+
+}
+
+
+<div id="PlaceHolderHere"></div>
+
+<div class="container-fluid alert-dark">
+    <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#addTeacher" data-url="@Url.Action("CreateClassRoutine")">CreateRoutine</button>
+    @*<button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#addTeacher" data-url="@Url.Action("Edit")">Update Routine</button>*@
+
+    <form asp-controller="ClassRoutine" asp-action="Index" style="position:static">
+        <div class="row">
+            <div class="col-md-8">
+                <input class="form-control" type="text" name="searchText" placeholder="Search..." />
+            </div>
+            <input class="p-1 ml-2 btn btn-outline-info btn-light" type="submit" value="Search" />
+
+        </div>
+    </form>
+
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DayOfWeek)
+                </th>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.StartTime)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EndTime)
+                    </th>*@
+
+                <th>
+                    @Html.DisplayNameFor(model => model.CStage)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SubjectId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ClassRoomId)
+                </th>
+                <th>
+                    Durations
+                </th>
+                <th>Operations</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DayOfWeek)
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.StartTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EndTime)
+                        </td>*@
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CStage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SubjectName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoomNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)-@Html.DisplayFor(modelItem => item.EndTime)
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#addTeacher"
+                                data-url="@Url.Action($"Edit/{item.Id}")">
+                            Edit
+                        </button>|
+                        @*<button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#addTeacher"
+                                data-url="@Url.Action($"Details/{item.Id}")">
+                            Details
+                        </button> |*@
+                        <button type="button" class="btn btn-danger" data-toggle="ajax-modal" @*data-target="#deleteRoutine"*@
+                                data-url="@Url.Action($"Delete/{item.Id}")">
+                            Delete
+                        </button>|
+
+
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <partial name="_Pager" model="@pager" />
+
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    
+
+}
+
+
